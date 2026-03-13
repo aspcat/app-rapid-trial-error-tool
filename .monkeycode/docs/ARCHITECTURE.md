@@ -63,10 +63,10 @@ Web 应用 - React SPA (Single Page Application)
 | 选题库管理 | TopicLibrary | 关键词管理、指标标注、优先级排序 |
 | 竞品分析 | CompetitorAnalysis | 竞品信息录入、对比分析 |
 | 需求挖掘 | RequirementMining | 需求采集、分类整理 |
-| 开发进度管控 | - | 待开发 |
-| 测试清单生成 | - | 待开发 |
-| ASO优化辅助 | - | 待开发 |
-| 数据复盘 | - | 待开发 |
+| 开发进度管控 | DevelopmentTracking | 任务分配、进度跟踪、里程碑管理 |
+| 测试清单生成 | TestingChecklist | 测试用例生成、测试计划管理 |
+| ASO优化辅助 | ASOOptimization | 关键词优化、排名监控、建议生成 |
+| 数据复盘 | DataReview | 数据分析、效果评估、经验总结 |
 
 #### 数据持久化层
 - 使用浏览器 LocalStorage 存储数据
@@ -75,6 +75,10 @@ Web 应用 - React SPA (Single Page Application)
   - `customFields` - 自定义字段配置
   - `competitors` - 竞品数据
   - `requirements` - 需求数据
+  - `developmentTasks` - 开发任务数据
+  - `testingChecklists` - 测试清单数据
+  - `asoKeywords` - ASO关键词数据
+  - `reviewData` - 复盘数据
   - `hasVisited` - 新手引导状态
 
 ### 3.3 目录结构
@@ -91,7 +95,15 @@ src/
 │   ├── CompetitorAnalysis.jsx # 竞品分析
 │   ├── CompetitorAnalysis.less
 │   ├── RequirementMining.jsx  # 需求挖掘
-│   └── RequirementMining.less
+│   ├── RequirementMining.less
+│   ├── DevelopmentTracking.jsx # 开发进度管控
+│   ├── DevelopmentTracking.less
+│   ├── TestingChecklist.jsx   # 测试清单生成
+│   ├── TestingChecklist.less
+│   ├── ASOOptimization.jsx   # ASO优化辅助
+│   ├── ASOOptimization.less
+│   └── DataReview.jsx         # 数据复盘
+│   └── DataReview.less
 ```
 
 ## 4. 核心业务流程
@@ -131,16 +143,42 @@ src/
 - 响应式布局
 - 直观的数据可视化（Tag 颜色标识）
 
-## 6. 待开发功能
+## 6. 模块功能概览
 
-以下模块在 UI 中已存在入口，但尚未实现：
+### 6.1 选题库管理
+- 关键词管理、指标标注、优先级排序
+- 支持自定义字段扩展
+- 数据导出为 Excel/CSV 模板
 
-| 模块 | 状态 | 说明 |
-|------|------|------|
-| 开发进度管控 | disabled | 开发中 |
-| 测试清单生成 | disabled | 开发中 |
-| ASO优化辅助 | disabled | 开发中 |
-| 数据复盘 | disabled | 开发中 |
+### 6.2 竞品分析
+- 竞品信息录入（直接竞品/间接竞品）
+- 核心功能、优势、不足分析
+- 综合评分与差异化机会识别
+
+### 6.3 需求挖掘
+- 从选题库和竞品分析中提取需求
+- 需求分类整理（功能/非功能/体验）
+- 优先级排序
+
+### 6.4 开发进度管控
+- 任务分配与跟踪
+- 进度管理
+- 里程碑设置
+
+### 6.5 测试清单生成
+- 测试用例生成
+- 测试计划管理
+- 测试结果记录
+
+### 6.6 ASO优化辅助
+- 关键词优化建议
+- 排名监控
+- ASO策略建议
+
+### 6.7 数据复盘
+- 数据分析与可视化
+- 效果评估
+- 经验总结与改进建议
 
 ## 7. 部署配置
 

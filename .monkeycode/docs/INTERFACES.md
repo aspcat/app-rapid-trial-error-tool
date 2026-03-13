@@ -67,7 +67,7 @@ const CompetitorAnalysis = () => {
 ```tsx
 const RequirementMining = () => {
   // State
-  requirements: Requirement[] // 需求列表
+  requirements: Requirement[]
   isModalVisible: boolean
   editingRequirement: Requirement | null
   form: FormInstance
@@ -75,6 +75,78 @@ const RequirementMining = () => {
   // Methods
   handleAdd(): void
   handleEdit(record: Requirement): void
+  handleDelete(id: number): void
+  handleOk(): Promise<void>
+}
+```
+
+### DevelopmentTracking (开发进度管控)
+
+```tsx
+const DevelopmentTracking = () => {
+  // State
+  tasks: DevelopmentTask[]
+  isModalVisible: boolean
+  editingTask: DevelopmentTask | null
+  form: FormInstance
+
+  // Methods
+  handleAdd(): void
+  handleEdit(record: DevelopmentTask): void
+  handleDelete(id: number): void
+  handleOk(): Promise<void>
+}
+```
+
+### TestingChecklist (测试清单生成)
+
+```tsx
+const TestingChecklist = () => {
+  // State
+  testCases: TestCase[]
+  isModalVisible: boolean
+  editingCase: TestCase | null
+  form: FormInstance
+
+  // Methods
+  handleAdd(): void
+  handleEdit(record: TestCase): void
+  handleDelete(id: number): void
+  handleOk(): Promise<void>
+}
+```
+
+### ASOOptimization (ASO优化辅助)
+
+```tsx
+const ASOOptimization = () => {
+  // State
+  keywords: ASOKeyword[]
+  isModalVisible: boolean
+  editingKeyword: ASOKeyword | null
+  form: FormInstance
+
+  // Methods
+  handleAdd(): void
+  handleEdit(record: ASOKeyword): void
+  handleDelete(id: number): void
+  handleOk(): Promise<void>
+}
+```
+
+### DataReview (数据复盘)
+
+```tsx
+const DataReview = () => {
+  // State
+  reviewData: ReviewData[]
+  isModalVisible: boolean
+  editingReview: ReviewData | null
+  form: FormInstance
+
+  // Methods
+  handleAdd(): void
+  handleEdit(record: ReviewData): void
   handleDelete(id: number): void
   handleOk(): Promise<void>
 }
@@ -144,4 +216,82 @@ interface CustomField {
 | customFields | CustomField[] | 自定义字段 |
 | competitors | Competitor[] | 竞品数据 |
 | requirements | Requirement[] | 需求数据 |
+| developmentTasks | DevelopmentTask[] | 开发任务数据 |
+| testingChecklists | TestCase[] | 测试清单数据 |
+| asoKeywords | ASOKeyword[] | ASO关键词数据 |
+| reviewData | ReviewData[] | 复盘数据 |
 | hasVisited | string | 新手引导状态 |
+
+### DevelopmentTask (开发任务)
+
+```typescript
+interface DevelopmentTask {
+  id: number;
+  title: string;
+  description: string;
+  assignee: string;
+  priority: 'high' | 'medium' | 'low';
+  status: 'pending' | 'in-progress' | 'completed' | 'delayed';
+  estimatedHours: number;
+  actualHours: number;
+  progress: number;
+  startDate?: string;
+  dueDate?: string;
+  milestone?: string;
+}
+```
+
+### TestCase (测试用例)
+
+```typescript
+interface TestCase {
+  id: number;
+  title: string;
+  module: string;
+  type: 'function' | 'performance' | 'security' | 'compatibility';
+  priority: 'high' | 'medium' | 'low';
+  preconditions: string;
+  steps: string;
+  expectedResult: string;
+  actualResult?: string;
+  status: 'untested' | 'passed' | 'failed' | 'blocked';
+  tester?: string;
+  testDate?: string;
+}
+```
+
+### ASOKeyword (ASO关键词)
+
+```typescript
+interface ASOKeyword {
+  id: number;
+  keyword: string;
+  category: 'core' | 'long-tail' | 'competitor';
+  difficulty: number;
+  searchVolume: number;
+  rank?: number;
+  rankHistory?: { date: string; rank: number }[];
+  suggestions?: string;
+}
+```
+
+### ReviewData (复盘数据)
+
+```typescript
+interface ReviewData {
+  id: number;
+  title: string;
+  period: { start: string; end: string };
+  metrics: {
+    userCount: number;
+    retention: number;
+    revenue: number;
+    conversion: number;
+  };
+  achievements: string[];
+  issues: string[];
+  improvements: string[];
+  nextPlan: string;
+  createdAt: string;
+}
+```
