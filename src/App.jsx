@@ -13,6 +13,10 @@ import {
 import TopicLibrary from './components/TopicLibrary';
 import CompetitorAnalysis from './components/CompetitorAnalysis';
 import RequirementMining from './components/RequirementMining';
+import DevelopmentTracking from './components/DevelopmentTracking';
+import TestingChecklist from './components/TestingChecklist';
+import ASOOptimization from './components/ASOOptimization';
+import DataReview from './components/DataReview';
 import './App.less';
 
 const { Header, Sider, Content } = Layout;
@@ -43,25 +47,21 @@ const App = () => {
       key: 'development-tracking',
       icon: <CodeOutlined />,
       label: '开发进度管控',
-      disabled: true
     },
     {
       key: 'testing-checklist',
       icon: <CheckSquareOutlined />,
       label: '测试清单生成',
-      disabled: true
     },
     {
       key: 'aso-optimization',
       icon: <BarChartOutlined />,
       label: 'ASO优化辅助',
-      disabled: true
     },
     {
       key: 'data-review',
       icon: <SettingOutlined />,
       label: '数据复盘',
-      disabled: true
     },
   ];
 
@@ -73,7 +73,7 @@ const App = () => {
     },
     {
       title: '核心功能模块',
-      description: '左侧是7大核心功能模块，当前可使用前3个模块，其余模块将在后续版本中开放。',
+      description: '左侧是7大核心功能模块，所有模块现已开放使用。',
       target: () => document.querySelector('.app-sider')
     },
     {
@@ -112,6 +112,14 @@ const App = () => {
         return <CompetitorAnalysis />;
       case 'requirement-mining':
         return <RequirementMining />;
+      case 'development-tracking':
+        return <DevelopmentTracking />;
+      case 'testing-checklist':
+        return <TestingChecklist />;
+      case 'aso-optimization':
+        return <ASOOptimization />;
+      case 'data-review':
+        return <DataReview />;
       default:
         return <div>模块开发中...</div>;
     }

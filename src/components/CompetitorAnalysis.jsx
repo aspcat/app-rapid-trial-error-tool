@@ -122,7 +122,12 @@ const CompetitorAnalysis = () => {
   useEffect(() => {
     const savedCompetitors = localStorage.getItem('competitorAnalysis');
     if (savedCompetitors) {
-      setCompetitors(JSON.parse(savedCompetitors));
+      try {
+        setCompetitors(JSON.parse(savedCompetitors));
+      } catch (e) {
+        console.error('Failed to parse competitorAnalysis from localStorage', e);
+        setCompetitors([]);
+      }
     }
   }, []);
 

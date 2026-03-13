@@ -106,12 +106,22 @@ const TopicLibrary = () => {
   useEffect(() => {
     const savedTopics = localStorage.getItem('topicLibrary');
     if (savedTopics) {
-      setTopics(JSON.parse(savedTopics));
+      try {
+        setTopics(JSON.parse(savedTopics));
+      } catch (e) {
+        console.error('Failed to parse topicLibrary from localStorage', e);
+        setTopics([]);
+      }
     }
     
     const savedCustomFields = localStorage.getItem('customFields');
     if (savedCustomFields) {
-      setCustomFields(JSON.parse(savedCustomFields));
+      try {
+        setCustomFields(JSON.parse(savedCustomFields));
+      } catch (e) {
+        console.error('Failed to parse customFields from localStorage', e);
+        setCustomFields([]);
+      }
     }
   }, []);
 
