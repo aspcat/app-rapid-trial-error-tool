@@ -186,7 +186,12 @@ const RequirementMining = () => {
   useEffect(() => {
     const savedRequirements = localStorage.getItem('requirementMining');
     if (savedRequirements) {
-      setRequirements(JSON.parse(savedRequirements));
+      try {
+        setRequirements(JSON.parse(savedRequirements));
+      } catch (e) {
+        console.error('Failed to parse requirementMining from localStorage', e);
+        setRequirements([]);
+      }
     }
   }, []);
 
