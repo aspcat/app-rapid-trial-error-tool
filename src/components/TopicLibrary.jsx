@@ -34,6 +34,7 @@ const TopicLibrary = () => {
   const [form] = Form.useForm();
   const [customFields, setCustomFields] = useState([]);
   const [isMethodologyVisible, setIsMethodologyVisible] = useState(false);
+  const [isDataReady, setIsDataReady] = useState(false);
 
   // 方法论说明
   const methodologyContent = (
@@ -123,16 +124,19 @@ const TopicLibrary = () => {
         setCustomFields([]);
       }
     }
+    setIsDataReady(true);
   }, []);
 
   // 保存数据
   useEffect(() => {
+    if (!isDataReady) return;
     localStorage.setItem('topicLibrary', JSON.stringify(topics));
-  }, [topics]);
+  }, [topics, isDataReady]);
 
   useEffect(() => {
+    if (!isDataReady) return;
     localStorage.setItem('customFields', JSON.stringify(customFields));
-  }, [customFields]);
+  }, [customFields, isDataReady]);
 
   // 添加自定义字段到表格列
   const getColumnsWithCustomFields = () => {

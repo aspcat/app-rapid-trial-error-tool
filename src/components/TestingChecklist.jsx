@@ -35,6 +35,7 @@ const TestingChecklist = () => {
   const [form] = Form.useForm();
   const [isMethodologyVisible, setIsMethodologyVisible] = useState(false);
   const [testItems, setTestItems] = useState([]);
+  const [isDataReady, setIsDataReady] = useState(false);
 
   // 方法论说明
   const methodologyContent = (
@@ -126,7 +127,16 @@ const TestingChecklist = () => {
     const savedChecklists = localStorage.getItem('testingChecklists');
     if (savedChecklists) {
       try {
-        setChecklists(JSON.parse(savedChecklists));
+        const parsed = JSON.parse(savedChecklists);
+        const baseId = Date.now();
+        setChecklists(
+          Array.isArray(parsed)
+            ? parsed.map((item, index) => ({
+                ...item,
+                id: item?.id ?? baseId + index,
+              }))
+            : []
+        );
       } catch (e) {
         console.error('Failed to parse testingChecklists from localStorage', e);
         setChecklists([]);
@@ -145,12 +155,14 @@ const TestingChecklist = () => {
     ];
     
     setTestItems(defaultItems);
+    setIsDataReady(true);
   }, []);
 
   // 保存数据
   useEffect(() => {
+    if (!isDataReady) return;
     localStorage.setItem('testingChecklists', JSON.stringify(checklists));
-  }, [checklists]);
+  }, [checklists, isDataReady]);
 
   const handleAdd = () => {
     setEditingChecklist(null);
@@ -278,7 +290,6 @@ const TestingChecklist = () => {
                     id: Date.now(),
                     name: item.name
                   };
-                  delete newItem.id; // 删除原始ID
                   setChecklists([...checklists, newItem]);
                 }}
               >

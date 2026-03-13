@@ -42,6 +42,7 @@ const DataReview = () => {
   const [metrics, setMetrics] = useState([]);
   const [isReportModalVisible, setIsReportModalVisible] = useState(false);
   const [reportContent, setReportContent] = useState('');
+  const [isDataReady, setIsDataReady] = useState(false);
 
   // 方法论说明
   const methodologyContent = (
@@ -93,16 +94,19 @@ const DataReview = () => {
     } else {
       setMetrics(defaultMetrics);
     }
+    setIsDataReady(true);
   }, []);
 
   // 保存数据
   useEffect(() => {
+    if (!isDataReady) return;
     localStorage.setItem('dataReviewData', JSON.stringify(reviewData));
-  }, [reviewData]);
+  }, [reviewData, isDataReady]);
 
   useEffect(() => {
+    if (!isDataReady) return;
     localStorage.setItem('reviewMetrics', JSON.stringify(metrics));
-  }, [metrics]);
+  }, [metrics, isDataReady]);
 
   const handleFinish = (values) => {
     setReviewData(values);
