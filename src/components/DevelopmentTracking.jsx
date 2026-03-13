@@ -36,6 +36,7 @@ const DevelopmentTracking = () => {
   const [form] = Form.useForm();
   const [notificationsEnabled, setNotificationsEnabled] = useState(true);
   const [isMethodologyVisible, setIsMethodologyVisible] = useState(false);
+  const [isLoaded, setIsLoaded] = useState(false);
 
   // 方法论说明
   const methodologyContent = (
@@ -141,16 +142,21 @@ const DevelopmentTracking = () => {
         setNotificationsEnabled(true);
       }
     }
+    setIsLoaded(true);
   }, []);
 
   // 保存数据
   useEffect(() => {
-    localStorage.setItem('developmentTasks', JSON.stringify(tasks));
-  }, [tasks]);
+    if (isLoaded) {
+      localStorage.setItem('developmentTasks', JSON.stringify(tasks));
+    }
+  }, [tasks, isLoaded]);
 
   useEffect(() => {
-    localStorage.setItem('notificationsEnabled', JSON.stringify(notificationsEnabled));
-  }, [notificationsEnabled]);
+    if (isLoaded) {
+      localStorage.setItem('notificationsEnabled', JSON.stringify(notificationsEnabled));
+    }
+  }, [notificationsEnabled, isLoaded]);
 
   const handleAdd = () => {
     setEditingTask(null);

@@ -32,6 +32,7 @@ const CompetitorAnalysis = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [editingCompetitor, setEditingCompetitor] = useState(null);
   const [form] = Form.useForm();
+  const [isLoaded, setIsLoaded] = useState(false);
 
   // 方法论说明
   const methodologyContent = (
@@ -129,12 +130,15 @@ const CompetitorAnalysis = () => {
         setCompetitors([]);
       }
     }
+    setIsLoaded(true);
   }, []);
 
   // 保存数据
   useEffect(() => {
-    localStorage.setItem('competitorAnalysis', JSON.stringify(competitors));
-  }, [competitors]);
+    if (isLoaded) {
+      localStorage.setItem('competitorAnalysis', JSON.stringify(competitors));
+    }
+  }, [competitors, isLoaded]);
 
   const handleAdd = () => {
     setEditingCompetitor(null);
