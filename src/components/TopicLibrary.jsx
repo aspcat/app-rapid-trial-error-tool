@@ -34,6 +34,7 @@ const TopicLibrary = () => {
   const [form] = Form.useForm();
   const [customFields, setCustomFields] = useState([]);
   const [isMethodologyVisible, setIsMethodologyVisible] = useState(false);
+  const [isLoaded, setIsLoaded] = useState(false);
 
   // 方法论说明
   const methodologyContent = (
@@ -123,16 +124,21 @@ const TopicLibrary = () => {
         setCustomFields([]);
       }
     }
+    setIsLoaded(true);
   }, []);
 
   // 保存数据
   useEffect(() => {
-    localStorage.setItem('topicLibrary', JSON.stringify(topics));
-  }, [topics]);
+    if (isLoaded) {
+      localStorage.setItem('topicLibrary', JSON.stringify(topics));
+    }
+  }, [topics, isLoaded]);
 
   useEffect(() => {
-    localStorage.setItem('customFields', JSON.stringify(customFields));
-  }, [customFields]);
+    if (isLoaded) {
+      localStorage.setItem('customFields', JSON.stringify(customFields));
+    }
+  }, [customFields, isLoaded]);
 
   // 添加自定义字段到表格列
   const getColumnsWithCustomFields = () => {

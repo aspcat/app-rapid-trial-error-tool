@@ -39,6 +39,7 @@ const ASOOptimization = () => {
   const [keywords, setKeywords] = useState([]);
   const [screenshots, setScreenshots] = useState([]);
   const [optimizationScore, setOptimizationScore] = useState(0);
+  const [isLoaded, setIsLoaded] = useState(false);
 
   // 方法论说明
   const methodologyContent = (
@@ -87,20 +88,27 @@ const ASOOptimization = () => {
         setScreenshots([]);
       }
     }
+    setIsLoaded(true);
   }, []);
 
   // 保存数据
   useEffect(() => {
-    localStorage.setItem('asoAppInfo', JSON.stringify(appInfo));
-  }, [appInfo]);
+    if (isLoaded) {
+      localStorage.setItem('asoAppInfo', JSON.stringify(appInfo));
+    }
+  }, [appInfo, isLoaded]);
 
   useEffect(() => {
-    localStorage.setItem('asoKeywords', JSON.stringify(keywords));
-  }, [keywords]);
+    if (isLoaded) {
+      localStorage.setItem('asoKeywords', JSON.stringify(keywords));
+    }
+  }, [keywords, isLoaded]);
 
   useEffect(() => {
-    localStorage.setItem('asoScreenshots', JSON.stringify(screenshots));
-  }, [screenshots]);
+    if (isLoaded) {
+      localStorage.setItem('asoScreenshots', JSON.stringify(screenshots));
+    }
+  }, [screenshots, isLoaded]);
 
   // 计算优化得分
   useEffect(() => {

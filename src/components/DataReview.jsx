@@ -40,6 +40,7 @@ const DataReview = () => {
   const [isMethodologyVisible, setIsMethodologyVisible] = useState(false);
   const [reviewData, setReviewData] = useState({});
   const [metrics, setMetrics] = useState([]);
+  const [isLoaded, setIsLoaded] = useState(false);
   const [isReportModalVisible, setIsReportModalVisible] = useState(false);
   const [reportContent, setReportContent] = useState('');
 
@@ -93,16 +94,21 @@ const DataReview = () => {
     } else {
       setMetrics(defaultMetrics);
     }
+    setIsLoaded(true);
   }, []);
 
   // 保存数据
   useEffect(() => {
-    localStorage.setItem('dataReviewData', JSON.stringify(reviewData));
-  }, [reviewData]);
+    if (isLoaded) {
+      localStorage.setItem('dataReviewData', JSON.stringify(reviewData));
+    }
+  }, [reviewData, isLoaded]);
 
   useEffect(() => {
-    localStorage.setItem('reviewMetrics', JSON.stringify(metrics));
-  }, [metrics]);
+    if (isLoaded) {
+      localStorage.setItem('reviewMetrics', JSON.stringify(metrics));
+    }
+  }, [metrics, isLoaded]);
 
   const handleFinish = (values) => {
     setReviewData(values);

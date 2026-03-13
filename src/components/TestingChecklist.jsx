@@ -35,6 +35,7 @@ const TestingChecklist = () => {
   const [form] = Form.useForm();
   const [isMethodologyVisible, setIsMethodologyVisible] = useState(false);
   const [testItems, setTestItems] = useState([]);
+  const [isLoaded, setIsLoaded] = useState(false);
 
   // 方法论说明
   const methodologyContent = (
@@ -145,12 +146,15 @@ const TestingChecklist = () => {
     ];
     
     setTestItems(defaultItems);
+    setIsLoaded(true);
   }, []);
 
   // 保存数据
   useEffect(() => {
-    localStorage.setItem('testingChecklists', JSON.stringify(checklists));
-  }, [checklists]);
+    if (isLoaded) {
+      localStorage.setItem('testingChecklists', JSON.stringify(checklists));
+    }
+  }, [checklists, isLoaded]);
 
   const handleAdd = () => {
     setEditingChecklist(null);
