@@ -40,6 +40,7 @@ const DataReview = () => {
   const [isMethodologyVisible, setIsMethodologyVisible] = useState(false);
   const [reviewData, setReviewData] = useState({});
   const [metrics, setMetrics] = useState([]);
+  const [isLoaded, setIsLoaded] = useState(false);
   const [isReportModalVisible, setIsReportModalVisible] = useState(false);
   const [reportContent, setReportContent] = useState('');
   const [isDataReady, setIsDataReady] = useState(false);
@@ -94,11 +95,16 @@ const DataReview = () => {
     } else {
       setMetrics(defaultMetrics);
     }
+<<<<<<< HEAD
     setIsDataReady(true);
+=======
+    setIsLoaded(true);
+>>>>>>> remotes/origin/main
   }, []);
 
   // 保存数据
   useEffect(() => {
+<<<<<<< HEAD
     if (!isDataReady) return;
     localStorage.setItem('dataReviewData', JSON.stringify(reviewData));
   }, [reviewData, isDataReady]);
@@ -107,6 +113,18 @@ const DataReview = () => {
     if (!isDataReady) return;
     localStorage.setItem('reviewMetrics', JSON.stringify(metrics));
   }, [metrics, isDataReady]);
+=======
+    if (isLoaded) {
+      localStorage.setItem('dataReviewData', JSON.stringify(reviewData));
+    }
+  }, [reviewData, isLoaded]);
+
+  useEffect(() => {
+    if (isLoaded) {
+      localStorage.setItem('reviewMetrics', JSON.stringify(metrics));
+    }
+  }, [metrics, isLoaded]);
+>>>>>>> remotes/origin/main
 
   const handleFinish = (values) => {
     setReviewData(values);

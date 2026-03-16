@@ -32,7 +32,11 @@ const CompetitorAnalysis = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [editingCompetitor, setEditingCompetitor] = useState(null);
   const [form] = Form.useForm();
+<<<<<<< HEAD
   const [isDataReady, setIsDataReady] = useState(false);
+=======
+  const [isLoaded, setIsLoaded] = useState(false);
+>>>>>>> remotes/origin/main
 
   // 方法论说明
   const methodologyContent = (
@@ -130,14 +134,25 @@ const CompetitorAnalysis = () => {
         setCompetitors([]);
       }
     }
+<<<<<<< HEAD
     setIsDataReady(true);
+=======
+    setIsLoaded(true);
+>>>>>>> remotes/origin/main
   }, []);
 
   // 保存数据
   useEffect(() => {
+<<<<<<< HEAD
     if (!isDataReady) return;
     localStorage.setItem('competitorAnalysis', JSON.stringify(competitors));
   }, [competitors, isDataReady]);
+=======
+    if (isLoaded) {
+      localStorage.setItem('competitorAnalysis', JSON.stringify(competitors));
+    }
+  }, [competitors, isLoaded]);
+>>>>>>> remotes/origin/main
 
   const handleAdd = () => {
     setEditingCompetitor(null);

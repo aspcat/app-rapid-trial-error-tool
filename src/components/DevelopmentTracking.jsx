@@ -36,7 +36,11 @@ const DevelopmentTracking = () => {
   const [form] = Form.useForm();
   const [notificationsEnabled, setNotificationsEnabled] = useState(true);
   const [isMethodologyVisible, setIsMethodologyVisible] = useState(false);
+<<<<<<< HEAD
   const [isDataReady, setIsDataReady] = useState(false);
+=======
+  const [isLoaded, setIsLoaded] = useState(false);
+>>>>>>> remotes/origin/main
 
   // 方法论说明
   const methodologyContent = (
@@ -142,11 +146,16 @@ const DevelopmentTracking = () => {
         setNotificationsEnabled(true);
       }
     }
+<<<<<<< HEAD
     setIsDataReady(true);
+=======
+    setIsLoaded(true);
+>>>>>>> remotes/origin/main
   }, []);
 
   // 保存数据
   useEffect(() => {
+<<<<<<< HEAD
     if (!isDataReady) return;
     localStorage.setItem('developmentTasks', JSON.stringify(tasks));
   }, [tasks, isDataReady]);
@@ -155,6 +164,18 @@ const DevelopmentTracking = () => {
     if (!isDataReady) return;
     localStorage.setItem('notificationsEnabled', JSON.stringify(notificationsEnabled));
   }, [notificationsEnabled, isDataReady]);
+=======
+    if (isLoaded) {
+      localStorage.setItem('developmentTasks', JSON.stringify(tasks));
+    }
+  }, [tasks, isLoaded]);
+
+  useEffect(() => {
+    if (isLoaded) {
+      localStorage.setItem('notificationsEnabled', JSON.stringify(notificationsEnabled));
+    }
+  }, [notificationsEnabled, isLoaded]);
+>>>>>>> remotes/origin/main
 
   const handleAdd = () => {
     setEditingTask(null);
