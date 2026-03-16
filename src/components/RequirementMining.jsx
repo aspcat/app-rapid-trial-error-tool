@@ -34,7 +34,11 @@ const RequirementMining = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [editingRequirement, setEditingRequirement] = useState(null);
   const [form] = Form.useForm();
+<<<<<<< HEAD
+  const [isDataReady, setIsDataReady] = useState(false);
+=======
   const [isLoaded, setIsLoaded] = useState(false);
+>>>>>>> remotes/origin/main
 
   // 方法论说明
   const methodologyContent = (
@@ -194,15 +198,25 @@ const RequirementMining = () => {
         setRequirements([]);
       }
     }
+<<<<<<< HEAD
+    setIsDataReady(true);
+=======
     setIsLoaded(true);
+>>>>>>> remotes/origin/main
   }, []);
 
   // 保存数据
   useEffect(() => {
+<<<<<<< HEAD
+    if (!isDataReady) return;
+    localStorage.setItem('requirementMining', JSON.stringify(requirements));
+  }, [requirements, isDataReady]);
+=======
     if (isLoaded) {
       localStorage.setItem('requirementMining', JSON.stringify(requirements));
     }
   }, [requirements, isLoaded]);
+>>>>>>> remotes/origin/main
 
   const handleAdd = () => {
     setEditingRequirement(null);

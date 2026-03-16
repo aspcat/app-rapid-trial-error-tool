@@ -43,6 +43,7 @@ const DataReview = () => {
   const [isLoaded, setIsLoaded] = useState(false);
   const [isReportModalVisible, setIsReportModalVisible] = useState(false);
   const [reportContent, setReportContent] = useState('');
+  const [isDataReady, setIsDataReady] = useState(false);
 
   // 方法论说明
   const methodologyContent = (
@@ -94,11 +95,25 @@ const DataReview = () => {
     } else {
       setMetrics(defaultMetrics);
     }
+<<<<<<< HEAD
+    setIsDataReady(true);
+=======
     setIsLoaded(true);
+>>>>>>> remotes/origin/main
   }, []);
 
   // 保存数据
   useEffect(() => {
+<<<<<<< HEAD
+    if (!isDataReady) return;
+    localStorage.setItem('dataReviewData', JSON.stringify(reviewData));
+  }, [reviewData, isDataReady]);
+
+  useEffect(() => {
+    if (!isDataReady) return;
+    localStorage.setItem('reviewMetrics', JSON.stringify(metrics));
+  }, [metrics, isDataReady]);
+=======
     if (isLoaded) {
       localStorage.setItem('dataReviewData', JSON.stringify(reviewData));
     }
@@ -109,6 +124,7 @@ const DataReview = () => {
       localStorage.setItem('reviewMetrics', JSON.stringify(metrics));
     }
   }, [metrics, isLoaded]);
+>>>>>>> remotes/origin/main
 
   const handleFinish = (values) => {
     setReviewData(values);

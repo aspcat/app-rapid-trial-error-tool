@@ -39,7 +39,11 @@ const ASOOptimization = () => {
   const [keywords, setKeywords] = useState([]);
   const [screenshots, setScreenshots] = useState([]);
   const [optimizationScore, setOptimizationScore] = useState(0);
+<<<<<<< HEAD
+  const [isDataReady, setIsDataReady] = useState(false);
+=======
   const [isLoaded, setIsLoaded] = useState(false);
+>>>>>>> remotes/origin/main
 
   // 方法论说明
   const methodologyContent = (
@@ -88,11 +92,30 @@ const ASOOptimization = () => {
         setScreenshots([]);
       }
     }
+<<<<<<< HEAD
+    setIsDataReady(true);
+=======
     setIsLoaded(true);
+>>>>>>> remotes/origin/main
   }, []);
 
   // 保存数据
   useEffect(() => {
+<<<<<<< HEAD
+    if (!isDataReady) return;
+    localStorage.setItem('asoAppInfo', JSON.stringify(appInfo));
+  }, [appInfo, isDataReady]);
+
+  useEffect(() => {
+    if (!isDataReady) return;
+    localStorage.setItem('asoKeywords', JSON.stringify(keywords));
+  }, [keywords, isDataReady]);
+
+  useEffect(() => {
+    if (!isDataReady) return;
+    localStorage.setItem('asoScreenshots', JSON.stringify(screenshots));
+  }, [screenshots, isDataReady]);
+=======
     if (isLoaded) {
       localStorage.setItem('asoAppInfo', JSON.stringify(appInfo));
     }
@@ -109,6 +132,7 @@ const ASOOptimization = () => {
       localStorage.setItem('asoScreenshots', JSON.stringify(screenshots));
     }
   }, [screenshots, isLoaded]);
+>>>>>>> remotes/origin/main
 
   // 计算优化得分
   useEffect(() => {
