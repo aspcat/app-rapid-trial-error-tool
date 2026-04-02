@@ -35,12 +35,7 @@ const TestingChecklist = () => {
   const [form] = Form.useForm();
   const [isMethodologyVisible, setIsMethodologyVisible] = useState(false);
   const [testItems, setTestItems] = useState([]);
-<<<<<<< HEAD
   const [isDataReady, setIsDataReady] = useState(false);
-=======
-  const [isLoaded, setIsLoaded] = useState(false);
->>>>>>> remotes/origin/main
-
   // 方法论说明
   const methodologyContent = (
     <div className="methodology-content">
@@ -159,25 +154,15 @@ const TestingChecklist = () => {
     ];
     
     setTestItems(defaultItems);
-<<<<<<< HEAD
     setIsDataReady(true);
-=======
-    setIsLoaded(true);
->>>>>>> remotes/origin/main
+
   }, []);
 
   // 保存数据
   useEffect(() => {
-<<<<<<< HEAD
     if (!isDataReady) return;
     localStorage.setItem('testingChecklists', JSON.stringify(checklists));
   }, [checklists, isDataReady]);
-=======
-    if (isLoaded) {
-      localStorage.setItem('testingChecklists', JSON.stringify(checklists));
-    }
-  }, [checklists, isLoaded]);
->>>>>>> remotes/origin/main
 
   const handleAdd = () => {
     setEditingChecklist(null);

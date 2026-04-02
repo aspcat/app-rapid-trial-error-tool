@@ -34,11 +34,7 @@ const TopicLibrary = () => {
   const [form] = Form.useForm();
   const [customFields, setCustomFields] = useState([]);
   const [isMethodologyVisible, setIsMethodologyVisible] = useState(false);
-<<<<<<< HEAD
   const [isDataReady, setIsDataReady] = useState(false);
-=======
-  const [isLoaded, setIsLoaded] = useState(false);
->>>>>>> remotes/origin/main
 
   // 方法论说明
   const methodologyContent = (
@@ -128,16 +124,11 @@ const TopicLibrary = () => {
         setCustomFields([]);
       }
     }
-<<<<<<< HEAD
     setIsDataReady(true);
-=======
-    setIsLoaded(true);
->>>>>>> remotes/origin/main
   }, []);
 
   // 保存数据
   useEffect(() => {
-<<<<<<< HEAD
     if (!isDataReady) return;
     localStorage.setItem('topicLibrary', JSON.stringify(topics));
   }, [topics, isDataReady]);
@@ -146,18 +137,6 @@ const TopicLibrary = () => {
     if (!isDataReady) return;
     localStorage.setItem('customFields', JSON.stringify(customFields));
   }, [customFields, isDataReady]);
-=======
-    if (isLoaded) {
-      localStorage.setItem('topicLibrary', JSON.stringify(topics));
-    }
-  }, [topics, isLoaded]);
-
-  useEffect(() => {
-    if (isLoaded) {
-      localStorage.setItem('customFields', JSON.stringify(customFields));
-    }
-  }, [customFields, isLoaded]);
->>>>>>> remotes/origin/main
 
   // 添加自定义字段到表格列
   const getColumnsWithCustomFields = () => {
