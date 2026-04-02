@@ -39,11 +39,7 @@ const ASOOptimization = () => {
   const [keywords, setKeywords] = useState([]);
   const [screenshots, setScreenshots] = useState([]);
   const [optimizationScore, setOptimizationScore] = useState(0);
-<<<<<<< HEAD
   const [isDataReady, setIsDataReady] = useState(false);
-=======
-  const [isLoaded, setIsLoaded] = useState(false);
->>>>>>> remotes/origin/main
 
   // 方法论说明
   const methodologyContent = (
@@ -51,7 +47,7 @@ const ASOOptimization = () => {
       <Title level={4}>ASO优化辅助方法论</Title>
       <Text>
         <p>1. 标题优化：包含核心关键词，控制在30个字符以内</p>
-        <p>2. 副标题优化：补充说明App功能和特点</p>
+        <p>2. 副标题优化：补充说明App功能和特点</p> 
         <p>3. 关键词优化：选择高搜索量、低竞争的关键词</p>
         <p>4. 截图优化：展示核心功能，添加说明文字</p>
         <p>5. 描述优化：突出App亮点，使用关键词</p>
@@ -92,16 +88,11 @@ const ASOOptimization = () => {
         setScreenshots([]);
       }
     }
-<<<<<<< HEAD
     setIsDataReady(true);
-=======
-    setIsLoaded(true);
->>>>>>> remotes/origin/main
   }, []);
 
   // 保存数据
   useEffect(() => {
-<<<<<<< HEAD
     if (!isDataReady) return;
     localStorage.setItem('asoAppInfo', JSON.stringify(appInfo));
   }, [appInfo, isDataReady]);
@@ -115,24 +106,6 @@ const ASOOptimization = () => {
     if (!isDataReady) return;
     localStorage.setItem('asoScreenshots', JSON.stringify(screenshots));
   }, [screenshots, isDataReady]);
-=======
-    if (isLoaded) {
-      localStorage.setItem('asoAppInfo', JSON.stringify(appInfo));
-    }
-  }, [appInfo, isLoaded]);
-
-  useEffect(() => {
-    if (isLoaded) {
-      localStorage.setItem('asoKeywords', JSON.stringify(keywords));
-    }
-  }, [keywords, isLoaded]);
-
-  useEffect(() => {
-    if (isLoaded) {
-      localStorage.setItem('asoScreenshots', JSON.stringify(screenshots));
-    }
-  }, [screenshots, isLoaded]);
->>>>>>> remotes/origin/main
 
   // 计算优化得分
   useEffect(() => {
