@@ -15,7 +15,9 @@ import {
   Row,
   Col,
   Statistic,
-  Progress
+  Progress,
+  Dropdown,
+  message
 } from 'antd';
 import { 
   InfoCircleOutlined,
@@ -26,8 +28,18 @@ import {
   CheckCircleOutlined,
   EditOutlined,
   PlusOutlined,
-  DeleteOutlined
+  DeleteOutlined,
+  DownloadOutlined,
+  FileExcelOutlined,
+  FileTextOutlined,
+  CodeOutlined
 } from '@ant-design/icons';
+import { 
+  exportToExcel, 
+  exportToCSV, 
+  exportToJSON,
+  asoKeywordsColumns
+} from '../utils/exportUtils';
 import './ASOOptimization.less';
 
 const { Title, Text, Paragraph } = Typography;
@@ -40,6 +52,62 @@ const ASOOptimization = () => {
   const [screenshots, setScreenshots] = useState([]);
   const [optimizationScore, setOptimizationScore] = useState(0);
   const [isDataReady, setIsDataReady] = useState(false);
+
+  const handleExport = (format) => {
+    const exportData = {
+      appInfo,
+      keywords,
+      screenshots,
+      optimizationScore
+    };
+    
+    const filename = `ASO优化_${new Date().toISOString().split('T')[0]}`;
+    
+    if (format === 'excel') {
+      const exportSheetData = [
+        { ...appInfo },
+        { type: 'keywords', data: keywords },
+        { type: 'screenshots', data: screenshots }
+      ];
+      exportToExcel([exportSheetData], filename, [
+        { title: 'App标题', dataIndex: 'title' },
+        { title: '副标题', dataIndex: 'subtitle' },
+        { title: '描述', dataIndex: 'description' }
+      ]);
+      message.success('Excel 导出成功');
+    } else if (format === 'json') {
+      exportToJSON([exportData], filename);
+      message.success('JSON 导出成功');
+    } else if (format === 'csv') {
+      exportToCSV([exportData], filename, [
+        { title: 'App标题', dataIndex: 'title' },
+        { title: '副标题', dataIndex: 'subtitle' },
+        { title: '描述', dataIndex: 'description' }
+      ]);
+      message.success('CSV 导出成功');
+    }
+  };
+
+  const exportMenuItems = [
+    {
+      key: 'excel',
+      icon: <FileExcelOutlined />,
+      label: '导出为 Excel',
+      onClick: () => handleExport('excel')
+    },
+    {
+      key: 'csv',
+      icon: <FileTextOutlined />,
+      label: '导出为 CSV',
+      onClick: () => handleExport('csv')
+    },
+    {
+      key: 'json',
+      icon: <CodeOutlined />,
+      label: '导出为 JSON',
+      onClick: () => handleExport('json')
+    }
+  ];
 
   // 方法论说明
   const methodologyContent = (
@@ -243,6 +311,16 @@ const ASOOptimization = () => {
             </Title>
             <Text type="secondary">提供标题、副标题优化建议，截图优化指导</Text>
           </div>
+          <Space>
+            <Dropdown 
+              menu={{ items: exportMenuItems }}
+              trigger={['click']}
+            >
+              <Button icon={<DownloadOutlined />}>
+                导出
+              </Button>
+            </Dropdown>
+          </Space>
         </div>
       </Card>
 

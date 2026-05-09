@@ -13,15 +13,26 @@ import {
   Popover,
   Row,
   Col,
-  Divider
+  Divider,
+  Dropdown,
+  message
 } from 'antd';
 import { 
   PlusOutlined, 
   EditOutlined, 
   DeleteOutlined, 
   InfoCircleOutlined,
-  DownloadOutlined
+  DownloadOutlined,
+  FileExcelOutlined,
+  FileTextOutlined,
+  CodeOutlined
 } from '@ant-design/icons';
+import { 
+  exportToExcel, 
+  exportToCSV, 
+  exportToJSON,
+  competitorAnalysisColumns
+} from '../utils/exportUtils';
 import './CompetitorAnalysis.less';
 
 const { Title, Text } = Typography;
@@ -33,6 +44,47 @@ const CompetitorAnalysis = () => {
   const [editingCompetitor, setEditingCompetitor] = useState(null);
   const [form] = Form.useForm();
   const [isDataReady, setIsDataReady] = useState(false);
+
+  const handleExport = (format) => {
+    if (competitors.length === 0) {
+      message.warning('竞品分析暂无数据可导出');
+      return;
+    }
+
+    const filename = `竞品分析_${new Date().toISOString().split('T')[0]}`;
+    
+    if (format === 'excel') {
+      exportToExcel(competitors, filename, competitorAnalysisColumns);
+      message.success('Excel 导出成功');
+    } else if (format === 'csv') {
+      exportToCSV(competitors, filename, competitorAnalysisColumns);
+      message.success('CSV 导出成功');
+    } else if (format === 'json') {
+      exportToJSON(competitors, filename);
+      message.success('JSON 导出成功');
+    }
+  };
+
+  const exportMenuItems = [
+    {
+      key: 'excel',
+      icon: <FileExcelOutlined />,
+      label: '导出为 Excel',
+      onClick: () => handleExport('excel')
+    },
+    {
+      key: 'csv',
+      icon: <FileTextOutlined />,
+      label: '导出为 CSV',
+      onClick: () => handleExport('csv')
+    },
+    {
+      key: 'json',
+      icon: <CodeOutlined />,
+      label: '导出为 JSON',
+      onClick: () => handleExport('json')
+    }
+  ];
 
   // 方法论说明
   const methodologyContent = (
@@ -227,12 +279,14 @@ const CompetitorAnalysis = () => {
             >
               添加竞品
             </Button>
-            <Button 
-              icon={<DownloadOutlined />} 
-              onClick={handleExportTemplate}
+            <Dropdown 
+              menu={{ items: exportMenuItems }}
+              trigger={['click']}
             >
-              分析模板
-            </Button>
+              <Button icon={<DownloadOutlined />}>
+                导出
+              </Button>
+            </Dropdown>
           </Space>
         </div>
       </Card>
