@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Layout, Menu, Button, Typography, Space, Tour, Modal } from 'antd';
+import { Layout, Menu, Button, Typography, Space, Tour, Modal, Dropdown, message } from 'antd';
 import { 
   BookOutlined, 
   SearchOutlined, 
@@ -8,7 +8,11 @@ import {
   CheckSquareOutlined, 
   BarChartOutlined, 
   SettingOutlined,
-  QuestionCircleOutlined
+  QuestionCircleOutlined,
+  DownloadOutlined,
+  FileExcelOutlined,
+  FileTextOutlined,
+  DatabaseOutlined
 } from '@ant-design/icons';
 import TopicLibrary from './components/TopicLibrary';
 import CompetitorAnalysis from './components/CompetitorAnalysis';
@@ -17,6 +21,17 @@ import DevelopmentTracking from './components/DevelopmentTracking';
 import TestingChecklist from './components/TestingChecklist';
 import ASOOptimization from './components/ASOOptimization';
 import DataReview from './components/DataReview';
+import { 
+  exportModuleToExcel, 
+  exportToCSV, 
+  exportToJSON, 
+  exportAllData,
+  topicLibraryColumns,
+  competitorAnalysisColumns,
+  requirementMiningColumns,
+  developmentTrackingColumns,
+  testingChecklistColumns
+} from './utils/exportUtils';
 import './App.less';
 
 const { Header, Sider, Content } = Layout;
@@ -26,6 +41,130 @@ const App = () => {
   const [currentModule, setCurrentModule] = useState('topic-library');
   const [showTour, setShowTour] = useState(false);
   const [tourOpen, setTourOpen] = useState(false);
+
+  const moduleDataMap = {
+    'topic-library': {
+      title: '选题库',
+      dataKey: 'topicLibrary',
+      columns: topicLibraryColumns
+    },
+    'competitor-analysis': {
+      title: '竞品分析',
+      dataKey: 'competitorAnalysis',
+      columns: competitorAnalysisColumns
+    },
+    'requirement-mining': {
+      title: '需求挖掘',
+      dataKey: 'requirementMining',
+      columns: requirementMiningColumns
+    },
+    'development-tracking': {
+      title: '开发任务',
+      dataKey: 'developmentTasks',
+      columns: developmentTrackingColumns
+    },
+    'testing-checklist': {
+      title: '测试清单',
+      dataKey: 'testingChecklists',
+      columns: testingChecklistColumns
+    },
+    'aso-optimization': {
+      title: 'ASO关键词',
+      dataKey: 'asoKeywords',
+      columns: null
+    },
+    'data-review': {
+      title: '数据复盘',
+      dataKey: 'reviewMetrics',
+      columns: null
+    }
+  };
+
+  const getCurrentModuleData = () => {
+    const config = moduleDataMap[currentModule];
+    if (!config) return [];
+    const data = localStorage.getItem(config.dataKey);
+    return data ? JSON.parse(data) : [];
+  };
+
+  const handleExportModule = (format) => {
+    const config = moduleDataMap[currentModule];
+    if (!config) {
+      message.warning('当前模块不支持导出');
+      return;
+    }
+
+    const data = getCurrentModuleData();
+    
+    if (data.length === 0) {
+      message.warning('当前模块暂无数据可导出');
+      return;
+    }
+
+    const filename = `${config.title}_${new Date().toISOString().split('T')[0]}`;
+
+    if (format === 'excel') {
+      if (config.columns) {
+        exportModuleToExcel(currentModule, config.title);
+      } else {
+        exportToJSON(Array.isArray(data) ? data : [data], filename);
+      }
+    } else if (format === 'csv') {
+      if (config.columns) {
+        exportToCSV(data, filename, config.columns);
+      } else {
+        exportToJSON(Array.isArray(data) ? data : [data], filename);
+      }
+    } else if (format === 'json') {
+      exportToJSON(Array.isArray(data) ? data : [data], filename);
+    }
+  };
+
+  const handleExportAll = (format) => {
+    if (format === 'all') {
+      exportAllData();
+    } else {
+      handleExportModule(format);
+    }
+  };
+
+  const exportMenuItems = [
+    {
+      key: 'module',
+      label: '导出当前模块',
+      type: 'group',
+      children: [
+        {
+          key: 'module-excel',
+          icon: <FileExcelOutlined />,
+          label: 'Excel 格式',
+          onClick: () => handleExportModule('excel')
+        },
+        {
+          key: 'module-csv',
+          icon: <FileTextOutlined />,
+          label: 'CSV 格式',
+          onClick: () => handleExportModule('csv')
+        },
+        {
+          key: 'module-json',
+          icon: <CodeOutlined />,
+          label: 'JSON 格式',
+          onClick: () => handleExportModule('json')
+        }
+      ]
+    },
+    {
+      key: 'divider1',
+      type: 'divider'
+    },
+    {
+      key: 'all',
+      icon: <DatabaseOutlined />,
+      label: '导出全部数据',
+      onClick: () => handleExportAll('all')
+    }
+  ];
 
   const menuItems = [
     {
@@ -125,18 +264,6 @@ const App = () => {
     }
   };
 
-  const handleExport = (format) => {
-    Modal.info({
-      title: '导出功能说明',
-      content: (
-        <div>
-          <p>您选择导出为 {format} 格式</p>
-          <p>实际应用中，这里将执行导出逻辑</p>
-        </div>
-      )
-    });
-  };
-
   return (
     <Layout className="app-layout">
       <Header className="app-header">
@@ -150,12 +277,15 @@ const App = () => {
             >
               新手引导
             </Button>
-            <Button 
+            <Dropdown 
+              menu={{ items: exportMenuItems }}
               className="export-button"
-              onClick={() => handleExport('Excel')}
+              trigger={['click']}
             >
-              导出数据
-            </Button>
+              <Button icon={<DownloadOutlined />}>
+                导出数据
+              </Button>
+            </Dropdown>
           </Space>
         </div>
       </Header>

@@ -12,7 +12,9 @@ import {
   Tag,
   Popover,
   List,
-  Collapse
+  Collapse,
+  Dropdown,
+  message
 } from 'antd';
 import { 
   PlusOutlined, 
@@ -20,9 +22,18 @@ import {
   DeleteOutlined, 
   InfoCircleOutlined,
   DownloadOutlined,
+  FileExcelOutlined,
+  FileTextOutlined,
+  CodeOutlined,
   CheckOutlined,
   CloseOutlined
 } from '@ant-design/icons';
+import { 
+  exportToExcel, 
+  exportToCSV, 
+  exportToJSON,
+  requirementMiningColumns
+} from '../utils/exportUtils';
 import './RequirementMining.less';
 
 const { Title, Text } = Typography;
@@ -35,6 +46,47 @@ const RequirementMining = () => {
   const [editingRequirement, setEditingRequirement] = useState(null);
   const [form] = Form.useForm();
   const [isDataReady, setIsDataReady] = useState(false);
+
+  const handleExport = (format) => {
+    if (requirements.length === 0) {
+      message.warning('需求挖掘暂无数据可导出');
+      return;
+    }
+
+    const filename = `需求挖掘_${new Date().toISOString().split('T')[0]}`;
+    
+    if (format === 'excel') {
+      exportToExcel(requirements, filename, requirementMiningColumns);
+      message.success('Excel 导出成功');
+    } else if (format === 'csv') {
+      exportToCSV(requirements, filename, requirementMiningColumns);
+      message.success('CSV 导出成功');
+    } else if (format === 'json') {
+      exportToJSON(requirements, filename);
+      message.success('JSON 导出成功');
+    }
+  };
+
+  const exportMenuItems = [
+    {
+      key: 'excel',
+      icon: <FileExcelOutlined />,
+      label: '导出为 Excel',
+      onClick: () => handleExport('excel')
+    },
+    {
+      key: 'csv',
+      icon: <FileTextOutlined />,
+      label: '导出为 CSV',
+      onClick: () => handleExport('csv')
+    },
+    {
+      key: 'json',
+      icon: <CodeOutlined />,
+      label: '导出为 JSON',
+      onClick: () => handleExport('json')
+    }
+  ];
 
   // 方法论说明
   const methodologyContent = (
@@ -284,12 +336,14 @@ const RequirementMining = () => {
             >
               添加需求
             </Button>
-            <Button 
-              icon={<DownloadOutlined />} 
-              onClick={handleExportTemplate}
+            <Dropdown 
+              menu={{ items: exportMenuItems }}
+              trigger={['click']}
             >
-              收集模板
-            </Button>
+              <Button icon={<DownloadOutlined />}>
+                导出
+              </Button>
+            </Dropdown>
           </Space>
         </div>
       </Card>
